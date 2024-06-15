@@ -41,6 +41,8 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.window.layout.DisplayFeature
 import androidx.window.layout.FoldingFeature
+import com.example.reply.ui.components.CompassComponent
+import com.example.reply.ui.components.FamousPlacesScreen
 import com.example.reply.ui.navigation.ModalNavigationDrawerContent
 import com.example.reply.ui.navigation.PermanentNavigationDrawerContent
 import com.example.reply.ui.navigation.ReplyBottomNavigationBar
@@ -296,20 +298,13 @@ private fun ReplyNavHost(
         startDestination = CompassRoute.EXPLORE,
     ) {
         composable(CompassRoute.EXPLORE) {
-            ReplyInboxScreen(
-                contentType = contentType,
-                replyHomeUIState = replyHomeUIState,
-                displayFeatures = displayFeatures,
-                closeDetailScreen = closeDetailScreen,
-                navigateToDetail = navigateToDetail,
-                toggleSelectedEmail = toggleSelectedEmail
-            )
+            CompassComponent(azimuth = 0f)
         }
         composable(CompassRoute.MAP) {
             EmptyComingSoon()
         }
         composable(CompassRoute.APARTMENT) {
-            EmptyComingSoon()
+            FamousPlacesScreen()
         }
         composable(CompassRoute.FAVORITES) {
             EmptyComingSoon()
