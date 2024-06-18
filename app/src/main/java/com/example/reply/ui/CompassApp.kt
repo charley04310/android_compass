@@ -47,7 +47,6 @@ import com.example.reply.ui.navigation.ModalNavigationDrawerContent
 import com.example.reply.ui.navigation.PermanentNavigationDrawerContent
 import com.example.reply.ui.navigation.ReplyBottomNavigationBar
 import com.example.reply.ui.navigation.ReplyNavigationActions
-import com.example.reply.ui.navigation.ReplyNavigationRail
 import com.example.reply.ui.navigation.CompassRoute
 import com.example.reply.ui.navigation.ReplyTopLevelDestination
 import com.example.reply.ui.utils.DevicePosture
@@ -65,7 +64,8 @@ fun ReplyApp(
     replyHomeUIState: ReplyHomeUIState,
     closeDetailScreen: () -> Unit = {},
     navigateToDetail: (Long, ReplyContentType) -> Unit = { _, _ -> },
-    toggleSelectedEmail: (Long) -> Unit = { }
+    toggleSelectedEmail: (Long) -> Unit = { },
+    azimuth: Float
 ) {
     /**
      * This will help us select type of navigation and content type depending on window size and
@@ -143,7 +143,8 @@ fun ReplyApp(
         replyHomeUIState = replyHomeUIState,
         closeDetailScreen = closeDetailScreen,
         navigateToDetail = navigateToDetail,
-        toggleSelectedEmail = toggleSelectedEmail
+        toggleSelectedEmail = toggleSelectedEmail,
+        azimuth = azimuth
     )
 }
 
@@ -156,7 +157,8 @@ private fun ReplyNavigationWrapper(
     replyHomeUIState: ReplyHomeUIState,
     closeDetailScreen: () -> Unit,
     navigateToDetail: (Long, ReplyContentType) -> Unit,
-    toggleSelectedEmail: (Long) -> Unit
+    toggleSelectedEmail: (Long) -> Unit,
+    azimuth : Float
 ) {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
@@ -189,7 +191,8 @@ private fun ReplyNavigationWrapper(
                 navigateToTopLevelDestination = navigationActions::navigateTo,
                 closeDetailScreen = closeDetailScreen,
                 navigateToDetail = navigateToDetail,
-                toggleSelectedEmail = toggleSelectedEmail
+                toggleSelectedEmail = toggleSelectedEmail,
+                azimuth = azimuth
             )
         }
     } else {
@@ -219,7 +222,8 @@ private fun ReplyNavigationWrapper(
                 navigateToTopLevelDestination = navigationActions::navigateTo,
                 closeDetailScreen = closeDetailScreen,
                 navigateToDetail = navigateToDetail,
-                toggleSelectedEmail = toggleSelectedEmail
+                toggleSelectedEmail = toggleSelectedEmail,
+                azimuth = azimuth
             ) {
                 scope.launch {
                     drawerState.open()
@@ -232,6 +236,7 @@ private fun ReplyNavigationWrapper(
 @Composable
 fun ReplyAppContent(
     modifier: Modifier = Modifier,
+    azimuth: Float,
     navigationType: ReplyNavigationType,
     contentType: ReplyContentType,
     displayFeatures: List<DisplayFeature>,
@@ -246,14 +251,7 @@ fun ReplyAppContent(
     onDrawerClicked: () -> Unit = {}
 ) {
     Row(modifier = modifier.fillMaxSize()) {
-        AnimatedVisibility(visible = navigationType == ReplyNavigationType.NAVIGATION_RAIL) {
-            ReplyNavigationRail(
-                selectedDestination = selectedDestination,
-                navigationContentPosition = navigationContentPosition,
-                navigateToTopLevelDestination = navigateToTopLevelDestination,
-                onDrawerClicked = onDrawerClicked,
-            )
-        }
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -269,6 +267,7 @@ fun ReplyAppContent(
                 navigateToDetail = navigateToDetail,
                 toggleSelectedEmail = toggleSelectedEmail,
                 modifier = Modifier.weight(1f),
+                azimuth = azimuth
             )
             AnimatedVisibility(visible = navigationType == ReplyNavigationType.BOTTOM_NAVIGATION) {
                 ReplyBottomNavigationBar(
@@ -291,6 +290,7 @@ private fun ReplyNavHost(
     navigateToDetail: (Long, ReplyContentType) -> Unit,
     toggleSelectedEmail: (Long) -> Unit,
     modifier: Modifier = Modifier,
+    azimuth: Float
 ) {
     NavHost(
         modifier = modifier,
@@ -298,7 +298,7 @@ private fun ReplyNavHost(
         startDestination = CompassRoute.EXPLORE,
     ) {
         composable(CompassRoute.EXPLORE) {
-            CompassComponent(azimuth = 0f)
+            CompassComponent(azimuth = azimuth)
         }
         composable(CompassRoute.MAP) {
             EmptyComingSoon()

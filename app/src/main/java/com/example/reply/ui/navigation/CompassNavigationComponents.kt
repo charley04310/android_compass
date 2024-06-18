@@ -63,70 +63,6 @@ import androidx.compose.ui.unit.offset
 import com.example.reply.R
 import com.example.reply.ui.utils.ReplyNavigationContentPosition
 
-@Composable
-fun ReplyNavigationRail(
-    selectedDestination: String,
-    navigationContentPosition: ReplyNavigationContentPosition,
-    navigateToTopLevelDestination: (ReplyTopLevelDestination) -> Unit,
-    onDrawerClicked: () -> Unit = {},
-) {
-    NavigationRail(
-        modifier = Modifier.fillMaxHeight(),
-        containerColor = MaterialTheme.colorScheme.inverseOnSurface
-    ) {
-        Column(
-            modifier = Modifier.layoutId(LayoutType.HEADER),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(4.dp)
-        ) {
-            NavigationRailItem(
-                selected = false,
-                onClick = onDrawerClicked,
-                icon = {
-                    Icon(
-                        imageVector = Icons.Default.Menu,
-                        contentDescription = stringResource(id = R.string.navigation_drawer)
-                    )
-                }
-            )
-            FloatingActionButton(
-                onClick = { /*TODO*/ },
-                modifier = Modifier.padding(top = 8.dp, bottom = 32.dp),
-                containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                contentColor = MaterialTheme.colorScheme.onTertiaryContainer
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Edit,
-                    contentDescription = stringResource(id = R.string.edit),
-                    modifier = Modifier.size(18.dp)
-                )
-            }
-            Spacer(Modifier.height(8.dp)) // NavigationRailHeaderPadding
-            Spacer(Modifier.height(4.dp)) // NavigationRailVerticalPadding
-        }
-
-        Column(
-            modifier = Modifier.layoutId(LayoutType.CONTENT),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(4.dp)
-        ) {
-            TOP_LEVEL_DESTINATIONS.forEach { replyDestination ->
-                NavigationRailItem(
-                    selected = selectedDestination == replyDestination.route,
-                    onClick = { navigateToTopLevelDestination(replyDestination) },
-                    icon = {
-                        Icon(
-                            imageVector = replyDestination.selectedIcon,
-                            contentDescription = stringResource(
-                                id = replyDestination.iconTextId
-                            )
-                        )
-                    }
-                )
-            }
-        }
-    }
-}
 
 @Composable
 fun ReplyBottomNavigationBar(
@@ -177,25 +113,6 @@ fun PermanentNavigationDrawerContent(
                         style = MaterialTheme.typography.titleMedium,
                         color = MaterialTheme.colorScheme.primary
                     )
-                    ExtendedFloatingActionButton(
-                        onClick = { /*TODO*/ },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = 8.dp, bottom = 40.dp),
-                        containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                        contentColor = MaterialTheme.colorScheme.onTertiaryContainer
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Edit,
-                            contentDescription = stringResource(id = R.string.edit),
-                            modifier = Modifier.size(24.dp)
-                        )
-                        Text(
-                            text = stringResource(id = R.string.compose),
-                            modifier = Modifier.weight(1f),
-                            textAlign = TextAlign.Center
-                        )
-                    }
                 }
 
                 Column(

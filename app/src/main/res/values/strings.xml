@@ -13,8 +13,8 @@
     <string name="navigation_drawer">Navigation Drawer</string>
     <string name="tab_explore">Explore</string>
     <string name="tab_map">Map</string>
-    <string name="tab_apartment">Direct Messages</string>
-    <string name="tab_favorites">Groups</string>
+    <string name="tab_apartment">Famous Places</string>
+    <string name="tab_favorites">Favorite</string>
 
     <string name="profile">Profile</string>
     <string name="search">Search</string>

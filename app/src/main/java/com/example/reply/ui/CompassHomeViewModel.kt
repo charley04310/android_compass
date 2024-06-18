@@ -34,28 +34,6 @@ class ReplyHomeViewModel(private val emailsRepository: EmailsRepository = Emails
     private val _uiState = MutableStateFlow(ReplyHomeUIState(loading = true))
     val uiState: StateFlow<ReplyHomeUIState> = _uiState
 
-    init {
-        observeEmails()
-    }
-
-    private fun observeEmails() {
-        viewModelScope.launch {
-            emailsRepository.getAllEmails()
-                .catch { ex ->
-                    _uiState.value = ReplyHomeUIState(error = ex.message)
-                }
-                .collect { emails ->
-                    /**
-                     * We set first email selected by default for first App launch in large-screens
-                     */
-                    _uiState.value = ReplyHomeUIState(
-                        placeToCompasses = emails,
-                        openedPlaceToCompass = null
-                    )
-                }
-        }
-    }
-
     fun setOpenedEmail(emailId: Long, contentType: ReplyContentType) {
         /**
          * We only set isDetailOnlyOpen to true when it's only single pane layout
