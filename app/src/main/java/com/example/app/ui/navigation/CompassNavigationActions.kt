@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.reply.ui.navigation
+package com.example.app.ui.navigation
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Explore
@@ -24,7 +24,7 @@ import androidx.compose.material.icons.filled.Stars
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
-import com.example.reply.R
+import com.example.app.R
 
 object CompassRoute {
     const val EXPLORE = "Explore"
@@ -33,16 +33,16 @@ object CompassRoute {
     const val FAVORITES = "Favorites"
 }
 
-data class ReplyTopLevelDestination(
+data class AppTopLevelDestination(
     val route: String,
     val selectedIcon: ImageVector,
     val unselectedIcon: ImageVector,
     val iconTextId: Int
 )
 
-class ReplyNavigationActions(private val navController: NavHostController) {
+class AppNavigationActions(private val navController: NavHostController) {
 
-    fun navigateTo(destination: ReplyTopLevelDestination) {
+    fun navigateTo(destination: AppTopLevelDestination) {
         navController.navigate(destination.route) {
             // Pop up to the start destination of the graph to
             // avoid building up a large stack of destinations
@@ -60,25 +60,25 @@ class ReplyNavigationActions(private val navController: NavHostController) {
 }
 
 val TOP_LEVEL_DESTINATIONS = listOf(
-    ReplyTopLevelDestination(
+    AppTopLevelDestination(
         route = CompassRoute.EXPLORE,
         selectedIcon = Icons.Default.Explore,
         unselectedIcon = Icons.Default.Explore,
         iconTextId = R.string.tab_explore
     ),
-    ReplyTopLevelDestination(
+    AppTopLevelDestination(
         route = CompassRoute.MAP,
         selectedIcon = Icons.Default.Map,
         unselectedIcon = Icons.Default.Map,
         iconTextId = R.string.tab_map
     ),
-    ReplyTopLevelDestination(
+    AppTopLevelDestination(
         route = CompassRoute.APARTMENT,
         selectedIcon = Icons.Default.Apartment,
         unselectedIcon = Icons.Default.Apartment,
         iconTextId = R.string.tab_apartment
     ),
-    ReplyTopLevelDestination(
+    AppTopLevelDestination(
         route = CompassRoute.FAVORITES,
         selectedIcon = Icons.Default.Stars,
         unselectedIcon = Icons.Default.Stars,

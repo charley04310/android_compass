@@ -1,4 +1,4 @@
-package com.example.reply.ui
+package com.example.app.ui
 
 import android.content.Context
 import android.hardware.Sensor
@@ -12,21 +12,16 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
-import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.DpSize
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.reply.ui.theme.ContrastAwareReplyTheme
+import com.example.app.ui.theme.ContrastAwareAppTheme
 import com.google.accompanist.adaptive.calculateDisplayFeatures
 
 class MainActivity : ComponentActivity(), SensorEventListener {
-    private val viewModel: ReplyHomeViewModel by viewModels()
+    private val viewModel: AppHomeViewModel by viewModels()
     private lateinit var sensorManager: SensorManager
     private var rotationMatrix = FloatArray(9)
     private var orientationAngles = FloatArray(3)
@@ -50,15 +45,15 @@ class MainActivity : ComponentActivity(), SensorEventListener {
         }
 
         setContent {
-            ContrastAwareReplyTheme {
+            ContrastAwareAppTheme {
                 val windowSize = calculateWindowSizeClass(this)
                 val displayFeatures = calculateDisplayFeatures(this)
                 val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-                ReplyApp(
+                App(
                     windowSize = windowSize,
                     displayFeatures = displayFeatures,
-                    replyHomeUIState = uiState,
+                    appHomeUIState = uiState,
                     closeDetailScreen = {
                         viewModel.closeDetailScreen()
                     },

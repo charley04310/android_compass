@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.reply.ui.theme
+package com.example.app.ui.theme
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Shapes

@@ -1,4 +1,4 @@
-package com.example.reply.ui
+package com.example.app.ui
 
 import android.content.Context
 import android.hardware.Sensor
@@ -13,14 +13,13 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.unit.dp
-import com.example.reply.ui.components.CompassComponent
+import com.example.app.ui.components.CompassComponent
 
 class CompassActivity : ComponentActivity(), SensorEventListener {
 

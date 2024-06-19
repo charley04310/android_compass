@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.reply.ui.utils
+package com.example.app.ui.utils
 
 import android.graphics.Rect
 import androidx.window.layout.FoldingFeature
@@ -53,20 +53,20 @@ fun isSeparating(foldFeature: FoldingFeature?): Boolean {
 /**
  * Different type of navigation supported by app depending on device size and state.
  */
-enum class ReplyNavigationType {
+enum class AppNavigationType {
     BOTTOM_NAVIGATION, NAVIGATION_RAIL, PERMANENT_NAVIGATION_DRAWER
 }
 
 /**
  * Different position of navigation content inside Navigation Rail, Navigation Drawer depending on device size and state.
  */
-enum class ReplyNavigationContentPosition {
+enum class AppNavigationContentPosition {
     TOP, CENTER
 }
 
 /**
  * App Content shown depending on device size and state.
  */
-enum class ReplyContentType {
+enum class AppContentType {
     SINGLE_PANE, DUAL_PANE
 }

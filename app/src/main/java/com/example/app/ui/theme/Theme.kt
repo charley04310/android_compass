@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.reply.ui.theme
+package com.example.app.ui.theme
 import android.app.Activity
 import android.app.UiModeManager
 import android.content.Context
@@ -289,13 +289,13 @@ fun selectSchemeForContrast(isDark: Boolean,): ColorScheme {
     } else return colorScheme
 }
 @Composable
-fun ContrastAwareReplyTheme(
+fun ContrastAwareAppTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
     dynamicColor: Boolean = false,
     content: @Composable() () -> Unit
 ) {
-    val replyColorScheme = when {
+    val appColorScheme = when {
         dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
             val context = LocalContext.current
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
@@ -307,14 +307,14 @@ fun ContrastAwareReplyTheme(
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
-            window.statusBarColor = replyColorScheme.primary.toArgb()
+            window.statusBarColor = appColorScheme.primary.toArgb()
             WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
         }
     }
 
     MaterialTheme(
-        colorScheme = replyColorScheme,
-        typography = replyTypography,
+        colorScheme = appColorScheme,
+        typography = appTypography,
         shapes = shapes,
         content = content
     )

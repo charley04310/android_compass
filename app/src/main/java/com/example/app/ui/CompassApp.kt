@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.reply.ui
+package com.example.app.ui
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
@@ -41,29 +41,29 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.window.layout.DisplayFeature
 import androidx.window.layout.FoldingFeature
-import com.example.reply.ui.components.CompassComponent
-import com.example.reply.ui.components.FamousPlacesScreen
-import com.example.reply.ui.navigation.ModalNavigationDrawerContent
-import com.example.reply.ui.navigation.PermanentNavigationDrawerContent
-import com.example.reply.ui.navigation.ReplyBottomNavigationBar
-import com.example.reply.ui.navigation.ReplyNavigationActions
-import com.example.reply.ui.navigation.CompassRoute
-import com.example.reply.ui.navigation.ReplyTopLevelDestination
-import com.example.reply.ui.utils.DevicePosture
-import com.example.reply.ui.utils.ReplyContentType
-import com.example.reply.ui.utils.ReplyNavigationContentPosition
-import com.example.reply.ui.utils.ReplyNavigationType
-import com.example.reply.ui.utils.isBookPosture
-import com.example.reply.ui.utils.isSeparating
+import com.example.app.ui.components.CompassComponent
+import com.example.app.ui.components.FamousPlacesScreen
+import com.example.app.ui.navigation.ModalNavigationDrawerContent
+import com.example.app.ui.navigation.PermanentNavigationDrawerContent
+import com.example.app.ui.navigation.AppBottomNavigationBar
+import com.example.app.ui.navigation.AppNavigationActions
+import com.example.app.ui.navigation.CompassRoute
+import com.example.app.ui.navigation.AppTopLevelDestination
+import com.example.app.ui.utils.DevicePosture
+import com.example.app.ui.utils.AppContentType
+import com.example.app.ui.utils.AppNavigationContentPosition
+import com.example.app.ui.utils.AppNavigationType
+import com.example.app.ui.utils.isBookPosture
+import com.example.app.ui.utils.isSeparating
 import kotlinx.coroutines.launch
 
 @Composable
-fun ReplyApp(
+fun App(
     windowSize: WindowSizeClass,
     displayFeatures: List<DisplayFeature>,
-    replyHomeUIState: ReplyHomeUIState,
+    appHomeUIState: AppHomeUIState,
     closeDetailScreen: () -> Unit = {},
-    navigateToDetail: (Long, ReplyContentType) -> Unit = { _, _ -> },
+    navigateToDetail: (Long, AppContentType) -> Unit = { _, _ -> },
     toggleSelectedEmail: (Long) -> Unit = { },
     azimuth: Float
 ) {
@@ -71,8 +71,8 @@ fun ReplyApp(
      * This will help us select type of navigation and content type depending on window size and
      * fold state of the device.
      */
-    val navigationType: ReplyNavigationType
-    val contentType: ReplyContentType
+    val navigationType: AppNavigationType
+    val contentType: AppContentType
 
     /**
      * We are using display's folding features to map the device postures a fold is in.
@@ -93,28 +93,28 @@ fun ReplyApp(
 
     when (windowSize.widthSizeClass) {
         WindowWidthSizeClass.Compact -> {
-            navigationType = ReplyNavigationType.BOTTOM_NAVIGATION
-            contentType = ReplyContentType.SINGLE_PANE
+            navigationType = AppNavigationType.BOTTOM_NAVIGATION
+            contentType = AppContentType.SINGLE_PANE
         }
         WindowWidthSizeClass.Medium -> {
-            navigationType = ReplyNavigationType.NAVIGATION_RAIL
+            navigationType = AppNavigationType.NAVIGATION_RAIL
             contentType = if (foldingDevicePosture != DevicePosture.NormalPosture) {
-                ReplyContentType.DUAL_PANE
+                AppContentType.DUAL_PANE
             } else {
-                ReplyContentType.SINGLE_PANE
+                AppContentType.SINGLE_PANE
             }
         }
         WindowWidthSizeClass.Expanded -> {
             navigationType = if (foldingDevicePosture is DevicePosture.BookPosture) {
-                ReplyNavigationType.NAVIGATION_RAIL
+                AppNavigationType.NAVIGATION_RAIL
             } else {
-                ReplyNavigationType.PERMANENT_NAVIGATION_DRAWER
+                AppNavigationType.PERMANENT_NAVIGATION_DRAWER
             }
-            contentType = ReplyContentType.DUAL_PANE
+            contentType = AppContentType.DUAL_PANE
         }
         else -> {
-            navigationType = ReplyNavigationType.BOTTOM_NAVIGATION
-            contentType = ReplyContentType.SINGLE_PANE
+            navigationType = AppNavigationType.BOTTOM_NAVIGATION
+            contentType = AppContentType.SINGLE_PANE
         }
     }
 
@@ -124,23 +124,23 @@ fun ReplyApp(
      */
     val navigationContentPosition = when (windowSize.heightSizeClass) {
         WindowHeightSizeClass.Compact -> {
-            ReplyNavigationContentPosition.TOP
+            AppNavigationContentPosition.TOP
         }
         WindowHeightSizeClass.Medium,
         WindowHeightSizeClass.Expanded -> {
-            ReplyNavigationContentPosition.CENTER
+            AppNavigationContentPosition.CENTER
         }
         else -> {
-            ReplyNavigationContentPosition.TOP
+            AppNavigationContentPosition.TOP
         }
     }
 
-    ReplyNavigationWrapper(
+    AppNavigationWrapper(
         navigationType = navigationType,
         contentType = contentType,
         displayFeatures = displayFeatures,
         navigationContentPosition = navigationContentPosition,
-        replyHomeUIState = replyHomeUIState,
+        appHomeUIState = appHomeUIState,
         closeDetailScreen = closeDetailScreen,
         navigateToDetail = navigateToDetail,
         toggleSelectedEmail = toggleSelectedEmail,
@@ -149,14 +149,14 @@ fun ReplyApp(
 }
 
 @Composable
-private fun ReplyNavigationWrapper(
-    navigationType: ReplyNavigationType,
-    contentType: ReplyContentType,
+private fun AppNavigationWrapper(
+    navigationType: AppNavigationType,
+    contentType: AppContentType,
     displayFeatures: List<DisplayFeature>,
-    navigationContentPosition: ReplyNavigationContentPosition,
-    replyHomeUIState: ReplyHomeUIState,
+    navigationContentPosition: AppNavigationContentPosition,
+    appHomeUIState: AppHomeUIState,
     closeDetailScreen: () -> Unit,
-    navigateToDetail: (Long, ReplyContentType) -> Unit,
+    navigateToDetail: (Long, AppContentType) -> Unit,
     toggleSelectedEmail: (Long) -> Unit,
     azimuth : Float
 ) {
@@ -165,13 +165,13 @@ private fun ReplyNavigationWrapper(
 
     val navController = rememberNavController()
     val navigationActions = remember(navController) {
-        ReplyNavigationActions(navController)
+        AppNavigationActions(navController)
     }
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val selectedDestination =
         navBackStackEntry?.destination?.route ?: CompassRoute.EXPLORE
 
-    if (navigationType == ReplyNavigationType.PERMANENT_NAVIGATION_DRAWER) {
+    if (navigationType == AppNavigationType.PERMANENT_NAVIGATION_DRAWER) {
         // TODO check on custom width of PermanentNavigationDrawer: b/232495216
         PermanentNavigationDrawer(drawerContent = {
             PermanentNavigationDrawerContent(
@@ -180,12 +180,12 @@ private fun ReplyNavigationWrapper(
                 navigateToTopLevelDestination = navigationActions::navigateTo,
             )
         }) {
-            ReplyAppContent(
+            AppContent(
                 navigationType = navigationType,
                 contentType = contentType,
                 displayFeatures = displayFeatures,
                 navigationContentPosition = navigationContentPosition,
-                replyHomeUIState = replyHomeUIState,
+                appHomeUIState = appHomeUIState,
                 navController = navController,
                 selectedDestination = selectedDestination,
                 navigateToTopLevelDestination = navigationActions::navigateTo,
@@ -211,12 +211,12 @@ private fun ReplyNavigationWrapper(
             },
             drawerState = drawerState
         ) {
-            ReplyAppContent(
+            AppContent(
                 navigationType = navigationType,
                 contentType = contentType,
                 displayFeatures = displayFeatures,
                 navigationContentPosition = navigationContentPosition,
-                replyHomeUIState = replyHomeUIState,
+                appHomeUIState = appHomeUIState,
                 navController = navController,
                 selectedDestination = selectedDestination,
                 navigateToTopLevelDestination = navigationActions::navigateTo,
@@ -234,19 +234,19 @@ private fun ReplyNavigationWrapper(
 }
 
 @Composable
-fun ReplyAppContent(
+fun AppContent(
     modifier: Modifier = Modifier,
     azimuth: Float,
-    navigationType: ReplyNavigationType,
-    contentType: ReplyContentType,
+    navigationType: AppNavigationType,
+    contentType: AppContentType,
     displayFeatures: List<DisplayFeature>,
-    navigationContentPosition: ReplyNavigationContentPosition,
-    replyHomeUIState: ReplyHomeUIState,
+    navigationContentPosition: AppNavigationContentPosition,
+    appHomeUIState: AppHomeUIState,
     navController: NavHostController,
     selectedDestination: String,
-    navigateToTopLevelDestination: (ReplyTopLevelDestination) -> Unit,
+    navigateToTopLevelDestination: (AppTopLevelDestination) -> Unit,
     closeDetailScreen: () -> Unit,
-    navigateToDetail: (Long, ReplyContentType) -> Unit,
+    navigateToDetail: (Long, AppContentType) -> Unit,
     toggleSelectedEmail: (Long) -> Unit,
     onDrawerClicked: () -> Unit = {}
 ) {
@@ -257,11 +257,11 @@ fun ReplyAppContent(
                 .fillMaxSize()
                 .background(MaterialTheme.colorScheme.surfaceContainerLow)
         ) {
-            ReplyNavHost(
+            AppNavHost(
                 navController = navController,
                 contentType = contentType,
                 displayFeatures = displayFeatures,
-                replyHomeUIState = replyHomeUIState,
+                appHomeUIState = appHomeUIState,
                 navigationType = navigationType,
                 closeDetailScreen = closeDetailScreen,
                 navigateToDetail = navigateToDetail,
@@ -269,8 +269,8 @@ fun ReplyAppContent(
                 modifier = Modifier.weight(1f),
                 azimuth = azimuth
             )
-            AnimatedVisibility(visible = navigationType == ReplyNavigationType.BOTTOM_NAVIGATION) {
-                ReplyBottomNavigationBar(
+            AnimatedVisibility(visible = navigationType == AppNavigationType.BOTTOM_NAVIGATION) {
+                AppBottomNavigationBar(
                     selectedDestination = selectedDestination,
                     navigateToTopLevelDestination = navigateToTopLevelDestination
                 )
@@ -280,14 +280,14 @@ fun ReplyAppContent(
 }
 
 @Composable
-private fun ReplyNavHost(
+private fun AppNavHost(
     navController: NavHostController,
-    contentType: ReplyContentType,
+    contentType: AppContentType,
     displayFeatures: List<DisplayFeature>,
-    replyHomeUIState: ReplyHomeUIState,
-    navigationType: ReplyNavigationType,
+    appHomeUIState: AppHomeUIState,
+    navigationType: AppNavigationType,
     closeDetailScreen: () -> Unit,
-    navigateToDetail: (Long, ReplyContentType) -> Unit,
+    navigateToDetail: (Long, AppContentType) -> Unit,
     toggleSelectedEmail: (Long) -> Unit,
     modifier: Modifier = Modifier,
     azimuth: Float

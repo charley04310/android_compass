@@ -14,16 +14,13 @@
  * limitations under the License.
  */
 
-package com.example.reply.ui.navigation
+package com.example.app.ui.navigation
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
@@ -32,10 +29,8 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.MenuOpen
 import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -44,8 +39,6 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.NavigationDrawerItemDefaults
-import androidx.compose.material3.NavigationRail
-import androidx.compose.material3.NavigationRailItem
 import androidx.compose.material3.PermanentDrawerSheet
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -60,24 +53,24 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.offset
-import com.example.reply.R
-import com.example.reply.ui.utils.ReplyNavigationContentPosition
+import com.example.app.ui.utils.AppNavigationContentPosition
+import com.example.app.R
 
 
 @Composable
-fun ReplyBottomNavigationBar(
+fun AppBottomNavigationBar(
     selectedDestination: String,
-    navigateToTopLevelDestination: (ReplyTopLevelDestination) -> Unit
+    navigateToTopLevelDestination: (AppTopLevelDestination) -> Unit
 ) {
     NavigationBar(modifier = Modifier.fillMaxWidth()) {
-        TOP_LEVEL_DESTINATIONS.forEach { replyDestination ->
+        TOP_LEVEL_DESTINATIONS.forEach { appDestination ->
             NavigationBarItem(
-                selected = selectedDestination == replyDestination.route,
-                onClick = { navigateToTopLevelDestination(replyDestination) },
+                selected = selectedDestination == appDestination.route,
+                onClick = { navigateToTopLevelDestination(appDestination) },
                 icon = {
                     Icon(
-                        imageVector = replyDestination.selectedIcon,
-                        contentDescription = stringResource(id = replyDestination.iconTextId)
+                        imageVector = appDestination.selectedIcon,
+                        contentDescription = stringResource(id = appDestination.iconTextId)
                     )
                 }
             )
@@ -88,8 +81,8 @@ fun ReplyBottomNavigationBar(
 @Composable
 fun PermanentNavigationDrawerContent(
     selectedDestination: String,
-    navigationContentPosition: ReplyNavigationContentPosition,
-    navigateToTopLevelDestination: (ReplyTopLevelDestination) -> Unit,
+    navigationContentPosition: AppNavigationContentPosition,
+    navigateToTopLevelDestination: (AppTopLevelDestination) -> Unit,
 ) {
     PermanentDrawerSheet(
         modifier = Modifier.sizeIn(minWidth = 200.dp, maxWidth = 300.dp),
@@ -121,27 +114,27 @@ fun PermanentNavigationDrawerContent(
                         .verticalScroll(rememberScrollState()),
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
-                    TOP_LEVEL_DESTINATIONS.forEach { replyDestination ->
+                    TOP_LEVEL_DESTINATIONS.forEach { appDestination ->
                         NavigationDrawerItem(
-                            selected = selectedDestination == replyDestination.route,
+                            selected = selectedDestination == appDestination.route,
                             label = {
                                 Text(
-                                    text = stringResource(id = replyDestination.iconTextId),
+                                    text = stringResource(id = appDestination.iconTextId),
                                     modifier = Modifier.padding(horizontal = 16.dp)
                                 )
                             },
                             icon = {
                                 Icon(
-                                    imageVector = replyDestination.selectedIcon,
+                                    imageVector = appDestination.selectedIcon,
                                     contentDescription = stringResource(
-                                        id = replyDestination.iconTextId
+                                        id = appDestination.iconTextId
                                     )
                                 )
                             },
                             colors = NavigationDrawerItemDefaults.colors(
                                 unselectedContainerColor = Color.Transparent
                             ),
-                            onClick = { navigateToTopLevelDestination(replyDestination) }
+                            onClick = { navigateToTopLevelDestination(appDestination) }
                         )
                     }
                 }
@@ -155,8 +148,8 @@ fun PermanentNavigationDrawerContent(
 @Composable
 fun ModalNavigationDrawerContent(
     selectedDestination: String,
-    navigationContentPosition: ReplyNavigationContentPosition,
-    navigateToTopLevelDestination: (ReplyTopLevelDestination) -> Unit,
+    navigationContentPosition: AppNavigationContentPosition,
+    navigateToTopLevelDestination: (AppTopLevelDestination) -> Unit,
     onDrawerClicked: () -> Unit = {}
 ) {
     ModalDrawerSheet {
@@ -191,25 +184,6 @@ fun ModalNavigationDrawerContent(
                         }
                     }
 
-                    ExtendedFloatingActionButton(
-                        onClick = { /*TODO*/ },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = 8.dp, bottom = 40.dp),
-                        containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                        contentColor = MaterialTheme.colorScheme.onTertiaryContainer
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Edit,
-                            contentDescription = stringResource(id = R.string.edit),
-                            modifier = Modifier.size(18.dp)
-                        )
-                        Text(
-                            text = stringResource(id = R.string.compose),
-                            modifier = Modifier.weight(1f),
-                            textAlign = TextAlign.Center
-                        )
-                    }
                 }
 
                 Column(
@@ -218,27 +192,27 @@ fun ModalNavigationDrawerContent(
                         .verticalScroll(rememberScrollState()),
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
-                    TOP_LEVEL_DESTINATIONS.forEach { replyDestination ->
+                    TOP_LEVEL_DESTINATIONS.forEach { appDestination ->
                         NavigationDrawerItem(
-                            selected = selectedDestination == replyDestination.route,
+                            selected = selectedDestination == appDestination.route,
                             label = {
                                 Text(
-                                    text = stringResource(id = replyDestination.iconTextId),
+                                    text = stringResource(id = appDestination.iconTextId),
                                     modifier = Modifier.padding(horizontal = 16.dp)
                                 )
                             },
                             icon = {
                                 Icon(
-                                    imageVector = replyDestination.selectedIcon,
+                                    imageVector = appDestination.selectedIcon,
                                     contentDescription = stringResource(
-                                        id = replyDestination.iconTextId
+                                        id = appDestination.iconTextId
                                     )
                                 )
                             },
                             colors = NavigationDrawerItemDefaults.colors(
                                 unselectedContainerColor = Color.Transparent
                             ),
-                            onClick = { navigateToTopLevelDestination(replyDestination) }
+                            onClick = { navigateToTopLevelDestination(appDestination) }
                         )
                     }
                 }
@@ -249,7 +223,7 @@ fun ModalNavigationDrawerContent(
 }
 
 fun navigationMeasurePolicy(
-    navigationContentPosition: ReplyNavigationContentPosition,
+    navigationContentPosition: AppNavigationContentPosition,
 ): MeasurePolicy {
     return MeasurePolicy { measurables, constraints ->
         lateinit var headerMeasurable: Measurable
@@ -276,8 +250,8 @@ fun navigationMeasurePolicy(
             val contentPlaceableY = when (navigationContentPosition) {
                 // Figure out the place we want to place the content, with respect to the
                 // parent (ignoring the header for now)
-                ReplyNavigationContentPosition.TOP -> 0
-                ReplyNavigationContentPosition.CENTER -> nonContentVerticalSpace / 2
+                AppNavigationContentPosition.TOP -> 0
+                AppNavigationContentPosition.CENTER -> nonContentVerticalSpace / 2
             }
                 // And finally, make sure we don't overlap with the header.
                 .coerceAtLeast(headerPlaceable.height)

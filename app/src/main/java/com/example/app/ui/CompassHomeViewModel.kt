@@ -14,34 +14,29 @@
  * limitations under the License.
  */
 
-package com.example.reply.ui
+package com.example.app.ui
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.example.reply.data.PlaceToCompass
-import com.example.reply.data.EmailsRepository
-import com.example.reply.data.EmailsRepositoryImpl
-import com.example.reply.ui.utils.ReplyContentType
+import com.example.app.data.PlaceToCompass
+import com.example.app.ui.utils.AppContentType
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.launch
 
-class ReplyHomeViewModel(private val emailsRepository: EmailsRepository = EmailsRepositoryImpl()) :
+class AppHomeViewModel() :
     ViewModel() {
 
     // UI state exposed to the UI
-    private val _uiState = MutableStateFlow(ReplyHomeUIState(loading = true))
-    val uiState: StateFlow<ReplyHomeUIState> = _uiState
+    private val _uiState = MutableStateFlow(AppHomeUIState(loading = true))
+    val uiState: StateFlow<AppHomeUIState> = _uiState
 
-    fun setOpenedEmail(emailId: Long, contentType: ReplyContentType) {
+    fun setOpenedEmail(emailId: Long, contentType: AppContentType) {
         /**
          * We only set isDetailOnlyOpen to true when it's only single pane layout
          */
         val email = uiState.value.placeToCompasses.find { it.id == emailId }
         _uiState.value = _uiState.value.copy(
             openedPlaceToCompass = email,
-            isDetailOnlyOpen = contentType == ReplyContentType.SINGLE_PANE
+            isDetailOnlyOpen = contentType == AppContentType.SINGLE_PANE
         )
     }
 
@@ -62,7 +57,7 @@ class ReplyHomeViewModel(private val emailsRepository: EmailsRepository = Emails
     }
 }
 
-data class ReplyHomeUIState(
+data class AppHomeUIState(
     val placeToCompasses: List<PlaceToCompass> = emptyList(),
     val selectedEmails: Set<Long> = emptySet(),
     val openedPlaceToCompass: PlaceToCompass? = null,

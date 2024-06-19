@@ -14,15 +14,17 @@
  * limitations under the License.
  */
 
-package com.example.reply.data
+package com.example.app.data
 
-import kotlinx.coroutines.flow.Flow
+import androidx.annotation.DrawableRes
 
 /**
- * An Interface contract to get all accounts info for User.
+ * A simple data class to represent an Email.
  */
-interface AccountsRepository {
-    fun getDefaultUserAccount(): Flow<Account>
-    fun getAllUserAccounts(): Flow<List<Account>>
-    fun getContactAccountByUid(uid: Long): Flow<Account>
-}
+data class PlaceToCompass(
+    val id: Long,
+    val name: String,
+    val country: String,
+    val position: String,
+    @DrawableRes val avatar: Int,
+)
