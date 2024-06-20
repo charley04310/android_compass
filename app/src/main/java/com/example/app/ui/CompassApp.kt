@@ -43,6 +43,7 @@ import androidx.window.layout.DisplayFeature
 import androidx.window.layout.FoldingFeature
 import com.example.app.ui.components.CompassComponent
 import com.example.app.ui.components.FamousPlacesScreen
+import com.example.app.ui.components.MapComponent
 import com.example.app.ui.navigation.ModalNavigationDrawerContent
 import com.example.app.ui.navigation.PermanentNavigationDrawerContent
 import com.example.app.ui.navigation.AppBottomNavigationBar
@@ -301,7 +302,7 @@ private fun AppNavHost(
             CompassComponent(azimuth = azimuth)
         }
         composable(CompassRoute.MAP) {
-            EmptyComingSoon()
+            MapComponent()
         }
         composable(CompassRoute.APARTMENT) {
             FamousPlacesScreen()

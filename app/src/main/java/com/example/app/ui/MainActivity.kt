@@ -65,6 +65,8 @@ class MainActivity : ComponentActivity(), SensorEventListener {
                     },
                     azimuth = azimuth
                 )
+
+
             }
         }
     }

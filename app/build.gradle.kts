@@ -25,7 +25,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.app"
-        minSdk = libs.versions.minSdk.get().toInt()
+        minSdk = 21
         targetSdk = libs.versions.targetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
@@ -103,7 +103,12 @@ dependencies {
 
     implementation(libs.androidx.compose.material3)
     implementation("com.google.accompanist:accompanist-adaptive:0.26.2-beta")
-
+    implementation ("com.mapbox.search:mapbox-search-android:2.2.0")
+    implementation ("com.mapbox.search:place-autocomplete:2.2.0")
+    implementation("com.mapbox.maps:android:11.4.1")
+    implementation("com.mapbox.extension:maps-compose:11.4.1")
+    implementation ("com.mapbox.search:autofill:2.2.0")
+    implementation ("com.mapbox.search:mapbox-search-android-ui:2.2.0")
     implementation(libs.androidx.compose.materialWindow)
     implementation(libs.androidx.compose.material.iconsExtended)
 
