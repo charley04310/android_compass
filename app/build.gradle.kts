@@ -110,6 +110,8 @@ dependencies {
     implementation("com.mapbox.extension:maps-compose:11.4.1")
     implementation ("com.mapbox.search:autofill:2.2.0")
     implementation ("com.mapbox.search:mapbox-search-android-ui:2.2.0")
+    implementation ("com.google.accompanist:accompanist-permissions:0.25.0")
+
     implementation(libs.androidx.compose.materialWindow)
     implementation(libs.androidx.compose.material.iconsExtended)
 

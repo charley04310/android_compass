@@ -69,7 +69,6 @@ fun App(
      * fold state of the device.
      */
     val navigationType: AppNavigationType
-    val contentType: AppContentType
 
     /**
      * We are using display's folding features to map the device postures a fold is in.
