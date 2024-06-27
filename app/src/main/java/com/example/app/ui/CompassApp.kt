@@ -62,10 +62,6 @@ import kotlinx.coroutines.launch
 fun App(
     windowSize: WindowSizeClass,
     displayFeatures: List<DisplayFeature>,
-    appHomeUIState: AppHomeUIState,
-    closeDetailScreen: () -> Unit = {},
-    navigateToDetail: (Long, AppContentType) -> Unit = { _, _ -> },
-    toggleSelectedEmail: (Long) -> Unit = { },
     azimuth: Float
 ) {
     /**
@@ -95,15 +91,10 @@ fun App(
     when (windowSize.widthSizeClass) {
         WindowWidthSizeClass.Compact -> {
             navigationType = AppNavigationType.BOTTOM_NAVIGATION
-            contentType = AppContentType.SINGLE_PANE
         }
         WindowWidthSizeClass.Medium -> {
             navigationType = AppNavigationType.NAVIGATION_RAIL
-            contentType = if (foldingDevicePosture != DevicePosture.NormalPosture) {
-                AppContentType.DUAL_PANE
-            } else {
-                AppContentType.SINGLE_PANE
-            }
+
         }
         WindowWidthSizeClass.Expanded -> {
             navigationType = if (foldingDevicePosture is DevicePosture.BookPosture) {
@@ -111,11 +102,9 @@ fun App(
             } else {
                 AppNavigationType.PERMANENT_NAVIGATION_DRAWER
             }
-            contentType = AppContentType.DUAL_PANE
         }
         else -> {
             navigationType = AppNavigationType.BOTTOM_NAVIGATION
-            contentType = AppContentType.SINGLE_PANE
         }
     }
 
@@ -138,13 +127,7 @@ fun App(
 
     AppNavigationWrapper(
         navigationType = navigationType,
-        contentType = contentType,
-        displayFeatures = displayFeatures,
         navigationContentPosition = navigationContentPosition,
-        appHomeUIState = appHomeUIState,
-        closeDetailScreen = closeDetailScreen,
-        navigateToDetail = navigateToDetail,
-        toggleSelectedEmail = toggleSelectedEmail,
         azimuth = azimuth
     )
 }
@@ -152,13 +135,7 @@ fun App(
 @Composable
 private fun AppNavigationWrapper(
     navigationType: AppNavigationType,
-    contentType: AppContentType,
-    displayFeatures: List<DisplayFeature>,
     navigationContentPosition: AppNavigationContentPosition,
-    appHomeUIState: AppHomeUIState,
-    closeDetailScreen: () -> Unit,
-    navigateToDetail: (Long, AppContentType) -> Unit,
-    toggleSelectedEmail: (Long) -> Unit,
     azimuth : Float
 ) {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
@@ -183,16 +160,9 @@ private fun AppNavigationWrapper(
         }) {
             AppContent(
                 navigationType = navigationType,
-                contentType = contentType,
-                displayFeatures = displayFeatures,
-                navigationContentPosition = navigationContentPosition,
-                appHomeUIState = appHomeUIState,
                 navController = navController,
                 selectedDestination = selectedDestination,
                 navigateToTopLevelDestination = navigationActions::navigateTo,
-                closeDetailScreen = closeDetailScreen,
-                navigateToDetail = navigateToDetail,
-                toggleSelectedEmail = toggleSelectedEmail,
                 azimuth = azimuth
             )
         }
@@ -214,22 +184,11 @@ private fun AppNavigationWrapper(
         ) {
             AppContent(
                 navigationType = navigationType,
-                contentType = contentType,
-                displayFeatures = displayFeatures,
-                navigationContentPosition = navigationContentPosition,
-                appHomeUIState = appHomeUIState,
                 navController = navController,
                 selectedDestination = selectedDestination,
                 navigateToTopLevelDestination = navigationActions::navigateTo,
-                closeDetailScreen = closeDetailScreen,
-                navigateToDetail = navigateToDetail,
-                toggleSelectedEmail = toggleSelectedEmail,
                 azimuth = azimuth
-            ) {
-                scope.launch {
-                    drawerState.open()
-                }
-            }
+            )
         }
     }
 }
@@ -239,17 +198,9 @@ fun AppContent(
     modifier: Modifier = Modifier,
     azimuth: Float,
     navigationType: AppNavigationType,
-    contentType: AppContentType,
-    displayFeatures: List<DisplayFeature>,
-    navigationContentPosition: AppNavigationContentPosition,
-    appHomeUIState: AppHomeUIState,
     navController: NavHostController,
     selectedDestination: String,
     navigateToTopLevelDestination: (AppTopLevelDestination) -> Unit,
-    closeDetailScreen: () -> Unit,
-    navigateToDetail: (Long, AppContentType) -> Unit,
-    toggleSelectedEmail: (Long) -> Unit,
-    onDrawerClicked: () -> Unit = {}
 ) {
     Row(modifier = modifier.fillMaxSize()) {
 
@@ -260,13 +211,6 @@ fun AppContent(
         ) {
             AppNavHost(
                 navController = navController,
-                contentType = contentType,
-                displayFeatures = displayFeatures,
-                appHomeUIState = appHomeUIState,
-                navigationType = navigationType,
-                closeDetailScreen = closeDetailScreen,
-                navigateToDetail = navigateToDetail,
-                toggleSelectedEmail = toggleSelectedEmail,
                 modifier = Modifier.weight(1f),
                 azimuth = azimuth
             )
@@ -283,13 +227,6 @@ fun AppContent(
 @Composable
 private fun AppNavHost(
     navController: NavHostController,
-    contentType: AppContentType,
-    displayFeatures: List<DisplayFeature>,
-    appHomeUIState: AppHomeUIState,
-    navigationType: AppNavigationType,
-    closeDetailScreen: () -> Unit,
-    navigateToDetail: (Long, AppContentType) -> Unit,
-    toggleSelectedEmail: (Long) -> Unit,
     modifier: Modifier = Modifier,
     azimuth: Float
 ) {

@@ -28,8 +28,9 @@ import com.mapbox.search.result.SearchSuggestion
 @Composable
 fun MapComponent(
     modifier: Modifier = Modifier,
-) {
+    userLocation: Point? = null
 
+) {
 
     var searchText by remember { mutableStateOf(TextFieldValue("")) }
     var suggestions by remember { mutableStateOf<List<SearchSuggestion>>(emptyList()) }
@@ -49,11 +50,17 @@ fun MapComponent(
         }
     }
 
+    userLocation?.let {
+        mapViewportState.setCameraOptions {
+            center(it)
+        }
+    }
     val searchEngine = remember {
         SearchEngine.createSearchEngineWithBuiltInDataProviders(
             settings = SearchEngineSettings()
         )
     }
+
 
     Box(modifier = modifier.fillMaxSize()) {
         MapboxMap(
