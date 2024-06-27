@@ -12,28 +12,31 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
+import com.mapbox.android.core.permissions.PermissionsManager
 import com.mapbox.geojson.Point
+import com.mapbox.maps.Style
 import com.mapbox.maps.extension.compose.MapboxMap
 import com.mapbox.maps.extension.compose.animation.viewport.MapViewportState
+import com.mapbox.maps.extension.compose.style.MapStyle
 import com.mapbox.search.ResponseInfo
 import com.mapbox.search.SearchEngine
 import com.mapbox.search.SearchEngineSettings
 import com.mapbox.search.SearchOptions
 import com.mapbox.search.SearchSuggestionsCallback
-import com.mapbox.search.result.SearchResult
 import com.mapbox.search.result.SearchSuggestion
 
 @Composable
 fun MapComponent(
     modifier: Modifier = Modifier,
 ) {
-    val context = LocalContext.current
+
 
     var searchText by remember { mutableStateOf(TextFieldValue("")) }
     var suggestions by remember { mutableStateOf<List<SearchSuggestion>>(emptyList()) }
 
     val options = SearchOptions(
         limit = 4
+
     )
     val mapViewportState = remember {
         MapViewportState().apply {
@@ -52,11 +55,13 @@ fun MapComponent(
         )
     }
 
-
     Box(modifier = modifier.fillMaxSize()) {
         MapboxMap(
             modifier = Modifier.matchParentSize(),
             mapViewportState = mapViewportState,
+            style = {
+                MapStyle(style = Style.SATELLITE_STREETS)
+            }
 
         )
 
@@ -100,6 +105,8 @@ fun MapComponent(
                                 .clickable {
                                     searchText = TextFieldValue(suggestion.name)
                                     suggestions = emptyList()
+                                    // Move map to suggestion location
+
                                 },
                             color = MaterialTheme.colorScheme.surface,
                             contentColor = MaterialTheme.colorScheme.onSurface

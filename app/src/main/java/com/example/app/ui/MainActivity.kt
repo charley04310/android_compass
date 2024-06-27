@@ -16,16 +16,19 @@ import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.app.ui.theme.ContrastAwareAppTheme
 import com.google.accompanist.adaptive.calculateDisplayFeatures
+import com.mapbox.android.core.permissions.PermissionsListener
+import com.mapbox.android.core.permissions.PermissionsManager
 import com.mapbox.search.SearchEngine
 import com.mapbox.search.SearchEngineSettings
 import com.mapbox.search.offline.OfflineSearchEngine
 import com.mapbox.search.offline.OfflineSearchEngineSettings
 import com.mapbox.common.TileStore
 
-class MainActivity : ComponentActivity(), SensorEventListener {
+class MainActivity : ComponentActivity(), SensorEventListener, PermissionsListener {
     private val viewModel: AppHomeViewModel by viewModels()
     private lateinit var sensorManager: SensorManager
     private var rotationMatrix = FloatArray(9)
@@ -38,6 +41,14 @@ class MainActivity : ComponentActivity(), SensorEventListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.d("CompassActivity", "EXECUTED ")
 
+        lateinit var permissionsManager: PermissionsManager
+
+        if (PermissionsManager.areLocationPermissionsGranted(this)) {
+            // Permission sensitive logic called here, such as activating the Maps SDK's LocationComponent to show the device's location
+        } else {
+            permissionsManager = PermissionsManager(this)
+            permissionsManager.requestLocationPermissions(this)
+        }
 
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
@@ -102,5 +113,13 @@ class MainActivity : ComponentActivity(), SensorEventListener {
 
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
         // do nothing
+    }
+
+    override fun onExplanationNeeded(permissionsToExplain: List<String>) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onPermissionResult(granted: Boolean) {
+        TODO("Not yet implemented")
     }
 }
