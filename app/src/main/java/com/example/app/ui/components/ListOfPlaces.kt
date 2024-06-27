@@ -25,7 +25,7 @@ fun FamousPlacesScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = 16.dp)
+            .padding(horizontal = 16.dp, vertical = 16.dp )
     ) {
         LazyColumn(
             modifier = Modifier.weight(1f)

@@ -19,6 +19,11 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.app.ui.theme.ContrastAwareAppTheme
 import com.google.accompanist.adaptive.calculateDisplayFeatures
+import com.mapbox.search.SearchEngine
+import com.mapbox.search.SearchEngineSettings
+import com.mapbox.search.offline.OfflineSearchEngine
+import com.mapbox.search.offline.OfflineSearchEngineSettings
+import com.mapbox.common.TileStore
 
 class MainActivity : ComponentActivity(), SensorEventListener {
     private val viewModel: AppHomeViewModel by viewModels()
@@ -27,12 +32,27 @@ class MainActivity : ComponentActivity(), SensorEventListener {
     private var orientationAngles = FloatArray(3)
     private var azimuth by mutableStateOf(0f)
 
+    private val tileStore = TileStore.create()
+
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.d("CompassActivity", "EXECUTED ")
 
+
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
+
+        val searchEngine = SearchEngine.createSearchEngineWithBuiltInDataProviders(
+            settings = SearchEngineSettings()
+        )
+
+        val offlineSearchEngine = OfflineSearchEngine.create(
+            OfflineSearchEngineSettings(
+                tileStore = tileStore
+            )
+        )
+
+        val descriptors = listOf(OfflineSearchEngine.createTilesetDescriptor())
 
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
 
