@@ -16,12 +16,21 @@ fun CompassComponent(
     modifier: Modifier = Modifier,
     azimuth: Float
 ) {
+
+    // change the image if no point is selected
+    val image: Int;
+
+    if (false) {
+        image = R.drawable.boussole
+    } else {
+        image = R.drawable.point
+    }
     Image(
         modifier = modifier
             .size(500.dp)
             .clip(CircleShape)
             .rotate(azimuth),
-        painter = painterResource(id = R.drawable.boussole),
+        painter = painterResource(id = image),
         contentDescription = "Compass Image",
     )
 }
