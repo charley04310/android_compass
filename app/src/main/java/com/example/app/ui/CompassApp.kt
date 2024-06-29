@@ -62,7 +62,9 @@ import kotlinx.coroutines.launch
 fun App(
     windowSize: WindowSizeClass,
     displayFeatures: List<DisplayFeature>,
-    azimuth: Float
+    azimuth: Float,
+    userLatitude: Double,
+    userLongitude: Double
 ) {
     /**
      * This will help us select type of navigation and content type depending on window size and
@@ -127,7 +129,9 @@ fun App(
     AppNavigationWrapper(
         navigationType = navigationType,
         navigationContentPosition = navigationContentPosition,
-        azimuth = azimuth
+        azimuth = azimuth,
+        userLatitude = userLatitude,
+        userLongitude = userLongitude
     )
 }
 
@@ -135,7 +139,9 @@ fun App(
 private fun AppNavigationWrapper(
     navigationType: AppNavigationType,
     navigationContentPosition: AppNavigationContentPosition,
-    azimuth : Float
+    azimuth : Float,
+    userLatitude: Double,
+    userLongitude: Double
 ) {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
@@ -162,7 +168,9 @@ private fun AppNavigationWrapper(
                 navController = navController,
                 selectedDestination = selectedDestination,
                 navigateToTopLevelDestination = navigationActions::navigateTo,
-                azimuth = azimuth
+                azimuth = azimuth,
+                userLatitude = userLatitude,
+                userLongitude = userLongitude
             )
         }
     } else {
@@ -186,7 +194,9 @@ private fun AppNavigationWrapper(
                 navController = navController,
                 selectedDestination = selectedDestination,
                 navigateToTopLevelDestination = navigationActions::navigateTo,
-                azimuth = azimuth
+                azimuth = azimuth,
+                userLatitude = userLatitude,
+                userLongitude = userLongitude
             )
         }
     }
@@ -196,6 +206,8 @@ private fun AppNavigationWrapper(
 fun AppContent(
     modifier: Modifier = Modifier,
     azimuth: Float,
+    userLatitude: Double,
+    userLongitude: Double,
     navigationType: AppNavigationType,
     navController: NavHostController,
     selectedDestination: String,
@@ -211,7 +223,9 @@ fun AppContent(
             AppNavHost(
                 navController = navController,
                 modifier = Modifier.weight(1f),
-                azimuth = azimuth
+                azimuth = azimuth,
+                userLatitude =userLatitude,
+                userLongitude = userLongitude
             )
             AnimatedVisibility(visible = navigationType == AppNavigationType.BOTTOM_NAVIGATION) {
                 AppBottomNavigationBar(
@@ -227,7 +241,9 @@ fun AppContent(
 private fun AppNavHost(
     navController: NavHostController,
     modifier: Modifier = Modifier,
-    azimuth: Float
+    azimuth: Float,
+    userLatitude: Double,
+    userLongitude: Double
 ) {
     NavHost(
         modifier = modifier,
@@ -241,7 +257,7 @@ private fun AppNavHost(
             MapComponent()
         }
         composable(CompassRoute.APARTMENT) {
-            FamousPlacesScreen()
+            FamousPlacesScreen(userLatitude, userLongitude)
         }
         composable(CompassRoute.FAVORITES) {
             EmptyComingSoon()
