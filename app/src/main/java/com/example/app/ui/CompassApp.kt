@@ -254,7 +254,7 @@ private fun AppNavHost(
             CompassComponent(azimuth = azimuth)
         }
         composable(CompassRoute.MAP) {
-            MapComponent()
+            MapComponent(userLongitude=userLongitude,  userLatitude=userLatitude )
         }
         composable(CompassRoute.APARTMENT) {
             FamousPlacesScreen(userLatitude, userLongitude)

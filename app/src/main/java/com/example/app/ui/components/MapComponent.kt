@@ -1,5 +1,6 @@
 package com.example.app.ui.components
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
@@ -28,12 +29,14 @@ import com.mapbox.search.result.SearchSuggestion
 @Composable
 fun MapComponent(
     modifier: Modifier = Modifier,
-    userLocation: Point? = null
+    userLatitude: Double,
+    userLongitude: Double
 
 ) {
 
     var searchText by remember { mutableStateOf(TextFieldValue("")) }
     var suggestions by remember { mutableStateOf<List<SearchSuggestion>>(emptyList()) }
+    var latitude by remember { mutableDoubleStateOf(0.0) }
 
     val options = SearchOptions(
         limit = 4
@@ -43,18 +46,14 @@ fun MapComponent(
         MapViewportState().apply {
             setCameraOptions {
                 zoom(5.0)
-                center(Point.fromLngLat(-98.0, 39.5))
+                center(Point.fromLngLat(userLongitude, userLatitude))
                 pitch(0.0)
                 bearing(0.0)
             }
         }
     }
 
-    userLocation?.let {
-        mapViewportState.setCameraOptions {
-            center(it)
-        }
-    }
+
     val searchEngine = remember {
         SearchEngine.createSearchEngineWithBuiltInDataProviders(
             settings = SearchEngineSettings()
@@ -93,6 +92,9 @@ fun MapComponent(
 
                             override fun onSuggestions(suggestionList: List<SearchSuggestion>, responseInfo: ResponseInfo) {
                                 suggestions = suggestionList // Update suggestions
+
+                                Log.d("MAP COMPONENT", "Response Info: $responseInfo")
+
 
                             }
                         },
