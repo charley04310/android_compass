@@ -2,19 +2,21 @@
 
 La boussole qui pointe les monuments historiques.
 
-<div align="center">
-    <img alt="overview-app" src="./screenshots/short.gif" height="500px" />
-</div>
+![Screen_recording_20240724_191046](https://github.com/user-attachments/assets/9a224fc8-2813-492b-919d-edda2ae29965)
+
+
 
 ## Description
 
-**Compass App** est une application Android développée en Kotlin qui utilise les capacités de Mapbox pour afficher les monuments historiques à proximité. Elle utilise Compose pour l'interface utilisateur et inclut des fonctionnalités telles que la recherche de lieux, l'autocomplétion et l'affichage de cartes.
+**Compass App** est une application Android développée en Kotlin qui utilise les capacités de Mapbox pour afficher les monuments historiques à proximité.Elle utilise Compose pour l'interface utilisateur et inclut des fonctionnalités telles que la recherche de lieux, l'autocomplétion et l'affichage de cartes ainsi qu'une boussole pour utiliser les capacité des capteurs electromagnetiques sur téléphone
 
 ## Fonctionnalités
 
 - Affichage des monuments historiques proches.
-- Intégration avec Mapbox pour les cartes et la recherche.
+- Intégration avec l'API Mapbox pour les cartes et la recherche.
 - Interface utilisateur moderne basée sur Jetpack Compose.
+- Boussole 
+- Selection du monument et indication de sa position avec la fleche et le point rouge
 
 ## Prérequis
 
